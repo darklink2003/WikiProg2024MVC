@@ -19,7 +19,7 @@
                     <!-- Título del formulario -->
                     <h3 class="card-title text-center">Inicio de Sesión</h3>
                     <!-- Inicio del formulario -->
-                    <form action="iniciar.php" method="post" id="formulario-login">
+                    <form action="../controller/iniciar.php" method="post" id="formulario-login">
                         <!-- Campo para ingresar el nombre de usuario -->
                         <div class="mb-3">
                             <label for="username" class="form-label">Nombre de Usuario</label>

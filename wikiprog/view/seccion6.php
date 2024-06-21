@@ -14,7 +14,7 @@
 -->
 <div class="row">
     <?php
-    include("clase.php");
+    include("../model/clase.php");
     echo(login::ver());
     ?>
 </div>

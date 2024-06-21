@@ -5,8 +5,8 @@
  * Esta clase permite registrar nuevos usuarios y recuperar datos de usuarios existentes.
  * 
  * @version 1.0
- * @author Pablo Alexander Mondragon Acevedo
- * @author Keiner Yamith Tarache Parra
+ * @autor Pablo Alexander Mondragon Acevedo
+ * @autor Keiner Yamith Tarache Parra
  */
 class Login
 {
@@ -45,26 +45,54 @@ class Login
     {
         // Variable para almacenar la salida
         $salida = "";
-
+    
         // Conexión a la base de datos
         $conexion = mysqli_connect("localhost", "root", "", "wikiprog");
-
+    
         // Consulta SQL para seleccionar todos los usuarios de la tabla 'usuario'
-        $sql = "SELECT * FROM usuario";
-
+        $sql = "SELECT usuario_id, usuario, correo, contraseña, rango_id FROM usuario";
+    
         // Ejecución de la consulta
         $consulta = $conexion->query($sql);
-
-        // Recorrer los resultados y construir la salida con los datos de cada usuario
+    
+        // Construcción de la tabla HTML con los datos de los usuarios
+        $salida = '<table class="table table-dark table-striped" style="max-width:100% ;">';
+        $salida .= '<thead>';
+        $salida .= '<tr>';
+        $salida .= '<th scope="col">Usuario</th>';
+        $salida .= '<th scope="col">Correo</th>';
+        $salida .= '<th scope="col">Rango</th>';
+        $salida .= '<th scope="col">Editar</th>';
+        $salida .= '<th scope="col">Eliminar</th>';
+        $salida .= '</tr>';
+        $salida .= '</thead>';
+        $salida .= '<tbody>';
+    
         while ($fila = $consulta->fetch_assoc()) {
-            $salida .= $fila['usuario'] . "<br>";
-            $salida .= $fila['correo'] . "<br>";
-            $salida .= $fila['contraseña'] . "<br>";
-            $salida .= $fila['rango_id'] . "<br><br>";
+            $usuario_id = $fila['usuario_id']; // Obtener el id del usuario
+            
+            // Asignar texto correspondiente al rango_id
+            $rango_texto = isset($fila["rango_id"]) ? 
+                ($fila["rango_id"] == 1 ? "Usuario" : 
+                ($fila["rango_id"] == 2 ? "Administrador" : 
+                ($fila["rango_id"] == 3 ? "Evaluador" : "Desconocido"))) 
+                : "Desconocido";
+    
+            $salida .= '<tr>';
+            $salida .= '<td>' . $fila['usuario'] . '</td>';
+            $salida .= '<td>' . $fila['correo'] . '</td>';
+            $salida .= '<td>' . $rango_texto . '</td>';
+            $salida .= '<td><a href="editar.php?id=' . $usuario_id . '" class="btn btn-primary btn-sm">Editar</a></td>';
+            $salida .= '<td><a href="eliminar.php?id=' . $usuario_id . '" class="btn btn-danger btn-sm">Eliminar</a></td>';
+            $salida .= '</tr>';
         }
-
+    
+        $salida .= '</tbody>';
+        $salida .= '</table>';
+    
         // Retornar la salida
         return $salida;
     }
+    
 }
 ?>

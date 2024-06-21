@@ -38,8 +38,12 @@ if ($result->num_rows > 0) {
     // Mostrar los datos del usuario
     while ($row = $result->fetch_assoc()) {
         // Verificar si existe 'rango_id' en $row antes de usarlo
-        $rango_texto = isset($row["rango_id"]) ? ($row["rango_id"] == 1 ? "Usuario" : ($row["rango_id"] == 2 ? "Administrador" : "Desconocido")) : "Desconocido";
-
+        $rango_texto = isset($row["rango_id"]) ? 
+        ($row["rango_id"] == 1 ? "Usuario" : 
+        ($row["rango_id"] == 2 ? "Administrador" : 
+        ($row["rango_id"] == 3 ? "Evaluador" : "Desconocido"))) 
+        : "Desconocido";
+        
         echo "<div class='container'>";
         echo "<div class='container_titulo'>";
         echo "<div class='row'>";
