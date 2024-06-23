@@ -117,7 +117,7 @@ if (empty($usuario_id) && !in_array($seccion, $public_sections)) {
 
 
     <!-- Contenido de la sección -->
-    <div class="container" style="margin-top:40px;">
+    <div class="container" style="margin-top:10px;">
         <?php include ($seccion . ".php"); ?>
     </div>
 

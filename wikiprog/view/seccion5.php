@@ -1,3 +1,5 @@
+<!-- seccion5.php -->
+
 <!--
 /**
  * Formulario para el registro de nuevos usuarios.
@@ -12,6 +14,7 @@
  *         Keiner Yamith Tarache Parra
  */
 -->
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
@@ -35,8 +38,15 @@
                             <label for="password" class="form-label">Contraseña</label>
                             <input type="password" class="form-control" id="password" name="password" placeholder="Ingresa tu contraseña" required>
                         </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="terminosCheckbox" name="terminos" required>
+                            <label class="form-check-label" for="terminosCheckbox">Acepto los términos y condiciones</label>
+                        </div>
+                        <div class="mb-3" id="terminosIframeContainer" style="display: none;">
+                            <iframe src="../view/terminos_y_condiciones.html" width="100%" height="200" frameborder="0"></iframe>
+                        </div>
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Registrarse</button>
+                            <button type="submit" class="btn btn-primary" id="submitBtn">Registrarse</button>
                         </div>
                     </form>
                 </div>
@@ -44,3 +54,15 @@
         </div>
     </div>
 </div>
+
+<script>
+    // JavaScript para mostrar u ocultar los términos y condiciones al hacer clic en el checkbox
+    document.getElementById('terminosCheckbox').addEventListener('change', function () {
+        var iframeContainer = document.getElementById('terminosIframeContainer');
+        if (this.checked) {
+            iframeContainer.style.display = 'block';
+        } else {
+            iframeContainer.style.display = 'none';
+        }
+    });
+</script>

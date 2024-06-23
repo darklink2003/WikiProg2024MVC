@@ -4,8 +4,9 @@
  *
  * Este archivo se encarga de gestionar la conexión a la base de datos,
  * validar los datos del formulario de registro, proteger contra inyecciones SQL,
- * verificar la existencia del usuario o correo en la base de datos y realizar
- * la inserción del nuevo usuario si no existe previamente.
+ * verificar la existencia del usuario o correo en la base de datos, y realizar
+ * la inserción del nuevo usuario si no existe previamente, además de validar
+ * la aceptación de términos y condiciones.
  *
  * PHP version 7.4
  *
@@ -40,6 +41,13 @@ $user = $conn->real_escape_string($user);
 $email = $conn->real_escape_string($email);
 $bio = $conn->real_escape_string($bio);
 $pass = $conn->real_escape_string($pass);
+
+// Verificar si se aceptaron los términos y condiciones
+if (!isset($_POST['terminos'])) {
+    // Mostrar un mensaje de error y redirigir o manejar el error según la lógica de la aplicación
+    echo "Debes aceptar los términos y condiciones para registrarte.";
+    exit; // Detener la ejecución del script
+}
 
 // Verificar si el usuario ya existe en la base de datos
 $sql = "SELECT * FROM usuario WHERE usuario = '$user' OR correo = '$email'";

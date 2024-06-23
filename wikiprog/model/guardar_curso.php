@@ -21,6 +21,59 @@ $titulos_leccion = $_POST['titulo_leccion'];
 $contenidos_leccion = $_POST['contenido_leccion'];
 $archivos_leccion = $_FILES['archivo_leccion']; // Array de archivos
 
+// Función para obtener el usuario_id del usuario actual (simulada)
+function obtenerUsuarioId()
+{
+    // Iniciar o continuar la sesión
+    session_start();
+
+    // Verificar si hay una sesión de usuario activa y obtener el usuario_id
+    if (isset($_SESSION['usuario_id'])) {
+        return $_SESSION['usuario_id'];
+    } else {
+        // Redirigir al usuario a la página de inicio de sesión si no hay sesión activa
+        header("Location: login.php");
+        exit(); // Finalizar la ejecución del script después de redirigir
+    }
+}
+
+// Función para obtener el rango_id del usuario actual (simulada)
+function obtenerRangoIdUsuario($usuario_id)
+{
+    // Conexión a la base de datos
+    $conexion = new mysqli('localhost', 'root', '', 'wikiprog');
+    if ($conexion->connect_error) {
+        die("Error de conexión: " . $conexion->connect_error);
+    }
+
+    // Consulta para obtener el rango_id del usuario
+    $sql = "SELECT rango_id FROM usuario WHERE usuario_id = ?";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("i", $usuario_id);
+    $stmt->execute();
+    $stmt->bind_result($rango_id);
+    $stmt->fetch();
+
+    // Cerrar la conexión y liberar recursos
+    $stmt->close();
+    $conexion->close();
+
+    // Devolver el rango_id obtenido
+    return $rango_id;
+}
+
+
+// Obtener el usuario_id del usuario actual
+$usuario_id = obtenerUsuarioId();
+
+// Verificar el rango_id del usuario
+$rango_id_permitidos = [2, 3]; // Rangos permitidos para agregar cursos
+$rango_id_usuario = obtenerRangoIdUsuario($usuario_id);
+
+if (!in_array($rango_id_usuario, $rango_id_permitidos)) {
+    die("No tienes permisos suficientes para agregar un curso.");
+}
+
 // Conexión a la base de datos
 $conexion = new mysqli('localhost', 'root', '', 'wikiprog');
 if ($conexion->connect_error) {
@@ -72,12 +125,12 @@ $conexion->begin_transaction();
 
 try {
     // Insertar los datos en la tabla curso
-    $sql_curso = "INSERT INTO curso (titulo_curso, descripcion, categoria_id) VALUES (?, ?, ?)";
+    $sql_curso = "INSERT INTO curso (titulo_curso, descripcion, categoria_id, usuario_id) VALUES (?, ?, ?, ?)";
     $stmt_curso = $conexion->prepare($sql_curso);
     if (!$stmt_curso) {
         throw new Exception("Error en la preparación de la consulta de curso: " . $conexion->error);
     }
-    $stmt_curso->bind_param("ssi", $titulo_curso, $descripcion, $categoria_id);
+    $stmt_curso->bind_param("ssii", $titulo_curso, $descripcion, $categoria_id, $usuario_id);
     $stmt_curso->execute();
     if ($stmt_curso->errno) {
         throw new Exception("Error en la ejecución de la consulta de curso: " . $stmt_curso->error);

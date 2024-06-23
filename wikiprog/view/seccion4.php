@@ -1,18 +1,6 @@
-<!--
-/**
- * Formulario para la creación y edición de cursos.
- *
- * Este formulario permite a los usuarios ingresar información para crear
- * o editar un curso en el sistema. Se proporcionan campos para ingresar
- * el título del curso, una descripción, seleccionar una categoría y agregar
- * lecciones dinámicamente. Al enviar el formulario, los datos se envían
- * al archivo "guardar_curso.php" mediante el método POST para su procesamiento.
- * 
- * @version 1.0
- * @author Pablo Alexander Mondragon Acevedo
- *         Keiner Yamith Tarache Parra
- */
--->
+<!-- seccion4.php -->
+
+<!-- Formulario para la creación y edición de cursos -->
 <div class="contenedor_descripcion">
     <form action="../model/guardar_curso.php" method="POST" enctype="multipart/form-data">
         <!-- Encabezado del formulario -->
@@ -62,17 +50,34 @@
                 <h3 style="color: white;">Lecciones</h3>
             </div><br>
             <div class="row">
-                <div id="lecciones">
-                    <!-- Aquí se agregarán las lecciones dinámicamente -->
+                <div class="row">
+                    <div id="lecciones">
+                        <!-- Aquí se agregarán las lecciones dinámicamente -->
+                    </div><br>
                 </div>
-                <div class="col-md-12">
-                    <button type="button" onclick="agregarLeccion()" class="btn btn-primary"
-                        style="margin-top: 10px; border-radius: 10px;">Agregar otra lección</button>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" onclick="agregarLeccion()" class="btn btn-primary"
+                            style="margin-top: 10px; border-radius: 10px;">Agregar otra lección</button>
+                    </div>
                 </div>
             </div>
         </div>
-
+        <br>
         <!-- Botón de envío del formulario -->
         <input type="submit" value="Enviar" class="btn btn-success">
     </form>
 </div>
+
+<!-- Plantilla de curso para el frontend -->
+<script type="text/template" id="curso-template">
+    <div class="curso">
+        <h2 class="titulo-curso"></h2>
+        <p class="descripcion-curso"></p>
+        <button class="like-button">Me gusta</button>
+        <button class="dislike-button">No me gusta</button>
+        <a href="#" class="ver-lecciones-link">Ver lecciones</a>
+    </div>
+</script>
+
+
