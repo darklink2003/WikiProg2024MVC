@@ -1,28 +1,33 @@
 <?php
-// Conexión a la base de datos
-$conexion = mysqli_connect("localhost", "root", "", "wikiprog");
+// Verificar si se ha enviado el parámetro 'id' por la URL
+if (isset($_GET['id'])) {
+    // Obtener el id del usuario desde la URL y asegurarse de que sea un entero válido
+    $usuario_id = intval($_GET['id']);
 
-// Verificar si la conexión es exitosa
-if (!$conexion) {
-    die("Conexión fallida: " . mysqli_connect_error());
-}
+    // Conexión a la base de datos
+    require_once 'db_connection.php'; // Asegúrate de que el archivo de conexión esté incluido correctamente
 
-// Obtener el ID del usuario desde la URL
-$usuario_id = $_GET['id'];
+    // Consulta SQL para eliminar el usuario
+    $sql = "DELETE FROM usuario WHERE usuario_id = ?";
 
-// Eliminar el usuario de la base de datos
-$sql = "DELETE FROM usuario WHERE usuario_id='$usuario_id'";
+    // Preparar la declaración SQL
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $usuario_id);
 
-if (mysqli_query($conexion, $sql)) {
-    echo "Usuario eliminado correctamente";
+    // Ejecutar la consulta
+    if ($stmt->execute()) {
+        // Redirigir a la página principal de usuarios después de eliminar
+        header("Location: ../controller/controlador.php?seccion=seccion6");
+        exit; // Finalizar el script después de la redirección
+    } else {
+        echo "Error al intentar eliminar el usuario: " . $stmt->error;
+    }
+
+    // Cerrar la declaración y la conexión
+    $stmt->close();
+    $conn->close();
 } else {
-    echo "Error al eliminar el usuario: " . mysqli_error($conexion);
+    // Si no se proporcionó el parámetro 'id', mostrar un mensaje de error o redirigir a otra página
+    echo "No se ha proporcionado el parámetro 'id' para eliminar el usuario.";
 }
-
-// Cerrar la conexión
-mysqli_close($conexion);
-
-// Redirigir a la página principal después de eliminar el usuario
-header("Location: index.php");
-exit;
 ?>

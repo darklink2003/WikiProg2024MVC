@@ -98,8 +98,9 @@ if (empty($usuario_id) && !in_array($seccion, $public_sections)) {
                                 <?php echo isset($_SESSION['usuario_id']) ? 'Activo' : 'Inactivo'; ?></a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="controlador.php?seccion=seccion9">Tu Perfil</a></li>
-                            <li><a class="dropdown-item" href="controlador.php?seccion=seccion12">Tu Nube</a></li>
+                            <li><a class="dropdown-item" href="controlador.php?seccion=seccion6">Lista De Usuarios</a></li>
                             <li><a class="dropdown-item" href="video.html">Tus Cursos</a></li>
+                            <li><a class="dropdown-item" href="controlador.php?seccion=seccion12">Tu Nube</a></li>
                             <li><a class="dropdown-item" href="controlador.php?seccion=seccion5"><b>Registro</b></a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="controlador.php?seccion=seccion10">Configuración</a></li>
